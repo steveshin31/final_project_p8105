@@ -4,3 +4,96 @@ author: "Kee-Young Shin"
 date: "December 4, 2018"
 output: html_document
 ---
+
+```{r}
+library(tidyverse)
+library(readxl)
+```
+
+```{r}
+# import hate crime data
+hate_offenses_2017 = read_xls("./table-1.xls") %>% 
+  janitor::clean_names() %>% 
+  filter(table_1 == "Total") %>% 
+  mutate(table_1 = str_replace(table_1, "Total", "2017"))
+
+hate_offenses_2016 = read_xls("./2016_hatecrime.xls") %>% 
+  janitor::clean_names() %>% 
+  filter(table_1 == "Total") %>% 
+  mutate(table_1 = str_replace(table_1, "Total", "2016")) %>% 
+  select(1:5)
+
+hate_offenses_2015 = read_xls("./2015_hatecrime.xls") %>% 
+  janitor::clean_names() %>% 
+  filter(table_1 == "Total") %>% 
+  mutate(table_1 = str_replace(table_1, "Total", "2015"))
+    
+hate_offenses_2014 = read_xls("./2014_hatecrime.xls") %>% 
+  janitor::clean_names() %>% 
+  filter(table_1 == "Total") %>% 
+  mutate(table_1 = str_replace(table_1, "Total", "2014")) %>% 
+  select(1:5)
+
+hate_offenses_2013 = read_xls("./2013_hatecrime.xls") %>% 
+  janitor::clean_names() %>% 
+  filter(table_1 == "Total") %>% 
+  mutate(table_1 = str_replace(table_1, "Total", "2013")) %>% 
+  select(1:5)
+
+hate_offenses_2012 = read_xls("./2011_hatecrime.xls") %>% 
+  janitor::clean_names() %>% 
+  filter(table_1 == "Total") %>% 
+  mutate(table_1 = str_replace(table_1, "Total", "2012"))
+
+hate_offenses_2011 = read_xls("./2011_hatecrime.xls") %>% 
+  janitor::clean_names() %>% 
+  filter(table_1 == "Total") %>% 
+  mutate(table_1 = str_replace(table_1, "Total", "2011"))
+
+hate_offenses_2010 = read_xls("./2010_hatecrime.xls") %>% 
+  janitor::clean_names() %>% 
+  filter(table_1 == "Total") %>% 
+  mutate(table_1 = str_replace(table_1, "Total", "2010"))
+
+hate_offenses_2009 = read_xls("./2009_hatecrime.xls") %>% 
+  janitor::clean_names() %>% 
+  filter(table_1 == "Total") %>% 
+  mutate(table_1 = str_replace(table_1, "Total", "2009"))
+
+hate_offenses_2008 = read_xls("./2008_hatecrime.xls") %>% 
+  janitor::clean_names() %>% 
+  filter(table_1 == "Total") %>% 
+  mutate(table_1 = str_replace(table_1, "Total", "2008"))
+
+hate_offenses_2007 = read_xls("./2007_hatecrime.xls") %>% 
+  janitor::clean_names() %>% 
+  filter(table_1 == "Total") %>% 
+  mutate(table_1 = str_replace(table_1, "Total", "2007"))
+
+hate_offenses_2006 = read_xls("./2006_hatecrime.xls") %>% 
+  janitor::clean_names() %>% 
+  filter(table_1 == "Total") %>% 
+  mutate(table_1 = str_replace(table_1, "Total", "2006"))
+
+hate_offenses_2005 = read_xls("./2005_hatecrime.xls") %>% 
+  janitor::clean_names() %>% 
+  filter(table_1 == "Total") %>% 
+  mutate(table_1 = str_replace(table_1, "Total", "2005"))
+
+# aggregate data for all years
+hatecrime_count_df = rbind(hate_offenses_2017, hate_offenses_2016, hate_offenses_2015, 
+                           hate_offenses_2014, hate_offenses_2013, hate_offenses_2012,
+                           hate_offenses_2011, hate_offenses_2010, hate_offenses_2009,
+                           hate_offenses_2008, hate_offenses_2007, hate_offenses_2006,
+                           hate_offenses_2005) %>% 
+  select(1:3) 
+  
+colnames(hatecrime_count_df) = c("year", "total_incidents", "total_offenses")
+```
+
+```{r}
+# plot change in number of hate crimes over time
+hatecrime_count_df %>% 
+  ggplot(aes(x = year, y = total_incidents)) + geom_point()
+```
+
