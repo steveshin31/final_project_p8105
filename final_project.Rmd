@@ -118,6 +118,13 @@ race = read_csv("./data/Race.csv") %>%
 vote = read_csv("./data/Vote.csv") %>% 
   janitor::clean_names()
 
+crime_rate = read_excel("./data/2016.xls",  range = cell_rows(3:53)) %>%
+  janitor::clean_names() %>%
+  filter(participating_state != "Total") %>%
+  select(location = participating_state, population_covered,       total_number_of_incidents_reported) %>%
+  mutate(crime_rate = total_number_of_incidents_reported/population_covered*100000) 
+
+
 ctizenship =
   ctizenship %>% 
   select(location, non_citizen)
@@ -126,12 +133,18 @@ race =
   race %>% 
   select(location, white)
 
+crime_rate =
+  crime_rate %>% 
+  select(location, crime_rate)
+
 merge_data = 
   merge(income, unemployment, by = "location") %>% 
   merge(., education, by = "location") %>% 
   merge(., ctizenship, by = "location") %>% 
   merge(., race, by = "location") %>% 
-  merge(., vote, by = "location") %>% 
-  filter(location != "United States")
+  merge(., vote, by = "location") %>%
+  merge(., crime_rate, by = "location") %>% 
+  filter(location != "United States") %>% 
+  rename(state = location, share_unemployed = unemployed, share_non_citizen = non_citizen, share_white = white)
 ```
 

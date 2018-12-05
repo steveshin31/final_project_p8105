@@ -273,7 +273,14 @@ income = read_csv(&quot;./data/Income.csv&quot;) %&gt;%
 ##   Location = col_character(),
 ##   share_voters_voted_trump = col_character()
 ## )</code></pre>
-<pre class="r"><code>ctizenship =
+<pre class="r"><code>crime_rate = read_excel(&quot;./data/2016.xls&quot;,  range = cell_rows(3:53)) %&gt;%
+  janitor::clean_names() %&gt;%
+  filter(participating_state != &quot;Total&quot;) %&gt;%
+  select(location = participating_state, population_covered,       total_number_of_incidents_reported) %&gt;%
+  mutate(crime_rate = total_number_of_incidents_reported/population_covered*100000) 
+
+
+ctizenship =
   ctizenship %&gt;% 
   select(location, non_citizen)
 
@@ -281,13 +288,19 @@ race =
   race %&gt;% 
   select(location, white)
 
+crime_rate =
+  crime_rate %&gt;% 
+  select(location, crime_rate)
+
 merge_data = 
   merge(income, unemployment, by = &quot;location&quot;) %&gt;% 
   merge(., education, by = &quot;location&quot;) %&gt;% 
   merge(., ctizenship, by = &quot;location&quot;) %&gt;% 
   merge(., race, by = &quot;location&quot;) %&gt;% 
-  merge(., vote, by = &quot;location&quot;) %&gt;% 
-  filter(location != &quot;United States&quot;)</code></pre>
+  merge(., vote, by = &quot;location&quot;) %&gt;%
+  merge(., crime_rate, by = &quot;location&quot;) %&gt;% 
+  filter(location != &quot;United States&quot;) %&gt;% 
+  rename(state = location, share_unemployed = unemployed, share_non_citizen = non_citizen, share_white = white)</code></pre>
 
 
 
