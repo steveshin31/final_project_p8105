@@ -148,3 +148,32 @@ merge_data =
   rename(state = location, share_unemployed = unemployed, share_non_citizen = non_citizen, share_white = white)
 ```
 
+```{r}
+#list the files
+files = as.data.frame(list.files(path = "./data_1")) 
+colnames(files)[1] = "file_names"
+```
+
+
+```{r}
+library(readxl)
+library(tidyverse)
+read_and_tidy = function(file_names){
+read_excel(str_c("./data_1/", file_names), range = cell_rows(3:53))
+}
+
+hate_crime =
+  files %>% 
+  mutate(map(files$file_names, read_and_tidy)) %>% 
+  unnest() %>% 
+  janitor::clean_names() %>% 
+  rename(year = file_names) %>% 
+  mutate(year = str_replace(year, ".xls", "")) %>% 
+  filter(participating_state != "Total")%>%
+  select(year = year, state = participating_state, population = population_covered, total_incident = total_number_of_incidents_reported)%>%
+  mutate(annualprop = total_incident/population*100000)
+```
+
+
+
+
