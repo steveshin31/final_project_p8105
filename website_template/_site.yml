@@ -1,4 +1,4 @@
-name: "Yay internet!"
+name: "Change of Hate Crime over Last Decade"
 output_dir: "."
 navbar:
   title: "Home"
@@ -8,6 +8,6 @@ navbar:
     - icon: fa-envelope fa-lg
       href: mailto:<you@youremail.com>
     - icon: fa-github fa-lg
-      href: http://github.com/<YOUR_GH_NAME>/
+      href: https://github.com/steveshin31/p8105_final_project
 output:
   html_document
