@@ -175,5 +175,12 @@ hate_crime =
 ```
 
 
+##do the further cleaning of the merge data
+```{r}
+merge_data = merge_data%>%
+  mutate(median_annual_household_income = str_replace(median_annual_household_income, ",", ""))%>%
+  mutate(median_annual_household_income = gsub("\\$", "",median_annual_household_income ))%>%
+mutate(median_annual_household_income = as.numeric(median_annual_household_income))
+```
 
-
+##
