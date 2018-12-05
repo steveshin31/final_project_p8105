@@ -1,7 +1,4 @@
 ---
-title: "Holy cow!"
+title: "Change of Hate Crime over Last Decade"
 ---
 
-### I have a webpage!
-
-And I can put all kinds of stuff on it!
