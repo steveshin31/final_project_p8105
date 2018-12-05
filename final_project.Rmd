@@ -97,3 +97,41 @@ hatecrime_count_df %>%
   ggplot(aes(x = year, y = total_incidents)) + geom_line(group = 1)
 ```
 
+
+```{r}
+# data in 2016
+income = read_csv("./data/Income.csv") %>% 
+  janitor::clean_names()
+
+unemployment = read_csv("./data/Unemployment.csv") %>% 
+  janitor::clean_names()
+
+education = read_csv("./data/Educational_level.csv") %>% 
+  janitor::clean_names()
+
+ctizenship = read_csv("./data/Ctizenship.csv") %>% 
+  janitor::clean_names()
+
+race = read_csv("./data/Race.csv") %>% 
+  janitor::clean_names()
+
+vote = read_csv("./data/Vote.csv") %>% 
+  janitor::clean_names()
+
+ctizenship =
+  ctizenship %>% 
+  select(location, non_citizen)
+
+race = 
+  race %>% 
+  select(location, white)
+
+merge_data = 
+  merge(income, unemployment, by = "location") %>% 
+  merge(., education, by = "location") %>% 
+  merge(., ctizenship, by = "location") %>% 
+  merge(., race, by = "location") %>% 
+  merge(., vote, by = "location") %>% 
+  filter(location != "United States")
+```
+
