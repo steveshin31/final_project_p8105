@@ -94,6 +94,6 @@ colnames(hatecrime_count_df) = c("year", "total_incidents", "total_offenses")
 ```{r}
 # plot change in number of hate crimes over time
 hatecrime_count_df %>% 
-  ggplot(aes(x = year, y = total_incidents)) + geom_point()
+  ggplot(aes(x = year, y = total_incidents)) + geom_line(group = 1)
 ```
 
